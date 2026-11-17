@@ -33,7 +33,7 @@ function config() {
   };
   return {
     project: required("PI_VERTEX_PROJECT", /^(?:[a-z][a-z0-9-]{4,28}[a-z0-9]|[0-9]{6,20})$/),
-    location: required("PI_VERTEX_LOCATION", /^(?:global|[a-z]+-[a-z]+[0-9])$/),
+    location: required("PI_VERTEX_LOCATION", /^(?:global|[a-z]+-[a-z]+[0-9]{1,2})$/),
     model: required("PI_VERTEX_MODEL", /^gemini-[a-z0-9][a-z0-9.-]{0,99}$/),
     quotaProject: required(
       "PI_VERTEX_QUOTA_PROJECT",
@@ -256,7 +256,7 @@ export default function vertexVideo(pi: ExtensionAPI) {
     label: "Vertex video analysis",
     executionMode: "sequential",
     description:
-      "Analyze a complete local audiovisual video through Vertex AI using ADC only. Sends the original bytes and MIME, never extracted frames. Requires explicit PI_VERTEX_PROJECT, PI_VERTEX_LOCATION, PI_VERTEX_MODEL and PI_VERTEX_QUOTA_PROJECT (project ID or none). Supports mp4/mov/webm/mpeg/mpg/flv/wmv/3gp. Local bounds: 90 MiB video, 128 MiB encoded request, 180s timeout; environment can lower these. Prompt at most 16384 UTF-8 bytes. Output capped at 48000 UTF-8 bytes or 1900 lines, with explicit truncation notice.",
+      "Analyze a complete local audiovisual video through Vertex AI using ADC only. Sends the original bytes and MIME, never extracted frames. Requires explicit PI_VERTEX_PROJECT, PI_VERTEX_LOCATION, PI_VERTEX_MODEL and PI_VERTEX_QUOTA_PROJECT (project ID or none). Supports mp4/mov/webm/mpeg/mpg/flv/wmv/3gp. Local bounds: 90 MiB video, 128 MiB encoded request, 180s timeout; environment can lower these. Prompt at most 16384 UTF-8 bytes. Analysis text capped at 48000 UTF-8 bytes or 1900 lines; explicit truncation and incomplete-finish notices may follow.",
     parameters: Type.Object(
       {
         path: Type.String({

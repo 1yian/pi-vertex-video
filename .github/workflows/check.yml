@@ -27,6 +27,7 @@ jobs:
       - run: npm run build
       - run: git diff --exit-code -- dist
       - name: Native Pi end-to-end tests
+        shell: bash
         run: npm run test:e2e 2>&1 | tee "$RUNNER_TEMP/native-e2e.log"
       - uses: actions/upload-artifact@v4
         if: always()

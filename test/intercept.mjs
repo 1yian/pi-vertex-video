@@ -40,6 +40,7 @@ const googleOrigins = new Set([
   "https://oauth2.googleapis.com",
   "https://aiplatform.googleapis.com",
   "https://us-central1-aiplatform.googleapis.com",
+  "https://europe-west10-aiplatform.googleapis.com",
 ]);
 let originalFetch = globalThis.fetch;
 const fixtureFetch = async (input, init) => {

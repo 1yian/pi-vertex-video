@@ -357,7 +357,12 @@ test("built package in real isolated Pi: native full-video protocol and failures
       directory,
     ]);
     const artifact = join(directory, "package");
-    await symlink(await realpath(join(root, "node_modules")), join(artifact, "node_modules"));
+    await mkdir(join(artifact, "node_modules"));
+    await symlink(
+      await realpath(join(root, "node_modules/google-auth-library")),
+      join(artifact, "node_modules/google-auth-library"),
+    );
+    assert.deepEqual(await readdir(join(artifact, "node_modules")), ["google-auth-library"]);
     const manifest = JSON.parse(await readFile(join(artifact, "package.json")));
     assert.deepEqual(manifest.pi, { extensions: ["./dist/index.js"] });
     assert.deepEqual(Object.keys(manifest.dependencies), ["google-auth-library"]);
@@ -474,6 +479,17 @@ test("built package in real isolated Pi: native full-video protocol and failures
       assert.equal(result.received.vertex[0].mime, "video/mp4");
       assert.equal(result.received.vertex[0].headers["x-goog-user-project"], undefined);
       assert.equal(result.received.vertex[0].hash, hash(await readFile(small)));
+    });
+    await t.test("two-digit regional location is routed without rewriting", async () => {
+      const result = await runCase(directory, artifact, small, {
+        env: { PI_VERTEX_LOCATION: "europe-west10" },
+      });
+      assert.equal(result.text, analysis);
+      assert.equal(
+        result.received.vertex[0].origin,
+        "https://europe-west10-aiplatform.googleapis.com",
+      );
+      assert.match(result.received.vertex[0].uri, /\/locations\/europe-west10\//);
     });
     await writeFile(join(directory, "empty.mp4"), "");
     await mkdir(join(directory, "directory.mp4"));
