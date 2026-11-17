@@ -1,0 +1,51 @@
+{
+  "name": "@1yian/pi-vertex-video",
+  "version": "0.1.0",
+  "description": "Standalone Pi native tool for full-video analysis with Vertex AI and ADC",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1yian/pi-vertex-video.git"
+  },
+  "keywords": [
+    "pi-package",
+    "vertex-ai",
+    "video"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check --error-on-warnings .",
+    "test:e2e": "node --test --test-concurrency=1 test/native.e2e.mjs",
+    "check": "npm run lint && npm run typecheck && npm run build && npm run test:e2e",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "google-auth-library": "11.3.4"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.8",
+    "@earendil-works/pi-coding-agent": "1.5.2",
+    "@types/node": "^24.0.0",
+    "typebox": "1.4.7",
+    "typescript": "5.9.3"
+  }
+}
